@@ -1,0 +1,11 @@
+# encoding: utf-8
+# 2019 R1
+SetScriptVersion(Version="19.3.111")
+template1 = GetTemplate(
+    TemplateName="Static Structural",
+    Solver="ANSYS")
+system1 = GetSystem(Name="ACP-Pre")
+system2 = template1.CreateSystem(
+    Position="Right",
+    RelativeTo=system1)
+system2.Delete()

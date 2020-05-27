@@ -1,0 +1,290 @@
+# encoding: utf-8
+# 2019 R1
+SetScriptVersion(Version="19.3.111")
+template1 = GetTemplate(
+    TemplateName="ACP",
+    Solver="Pre")
+system1 = template1.CreateSystem()
+engineeringData1 = system1.GetContainer(ComponentName="Engineering Data")
+matl1 = engineeringData1.CreateMaterial(Name="T300 Weave")
+matlProp1 = matl1.CreateProperty(
+    Name="Elasticity",
+    Behavior="Orthotropic",
+    Qualifiers={"Definition": "", "Behavior": "Orthotropic"})
+matlProp1.SetVariableProperty(
+    VariableName="Young's Modulus X direction",
+    Property="Unit",
+    Value="psi")
+matlProp1.SetVariableProperty(
+    VariableName="Young's Modulus Y direction",
+    Property="Unit",
+    Value="psi")
+matlProp1.SetVariableProperty(
+    VariableName="Young's Modulus Z direction",
+    Property="Unit",
+    Value="psi")
+matlProp1.SetVariableProperty(
+    VariableName="Shear Modulus XY",
+    Property="Unit",
+    Value="psi")
+matlProp1.SetVariableProperty(
+    VariableName="Shear Modulus XZ",
+    Property="Unit",
+    Value="psi")
+matlProp1.SetVariableProperty(
+    VariableName="Shear Modulus YZ",
+    Property="Unit",
+    Value="psi")
+matlProp1.SetData(
+    Index=-1,
+    Variables=["Young's Modulus X direction"],
+    Values=[["8500000 [psi]"]])
+matlProp1.SetData(
+    Variables=["Young's Modulus Y direction"],
+    Values=[["8500000 [psi]"]])
+matlProp1.SetData(
+    Variables=["Young's Modulus Z direction"],
+    Values=[["1000000 [psi]"]])
+matlProp1.SetData(
+    Variables=["Poisson's Ratio XY"],
+    Values=[["0.06"]])
+matlProp1.SetData(
+    Variables=["Poisson's Ratio YZ"],
+    Values=[["0.06"]])
+matlProp1.SetData(
+    Variables=["Poisson's Ratio XZ"],
+    Values=[["0.06"]])
+matlProp1.SetData(
+    Variables=["Shear Modulus XY"],
+    Values=[["560000 [psi]"]])
+matlProp1.SetData(
+    Variables=["Shear Modulus YZ"],
+    Values=[["560000 [psi]"]])
+matlProp1.SetData(
+    Variables=["Shear Modulus XZ"],
+    Values=[["830000 [psi]"]])
+matlProp2 = matl1.CreateProperty(
+    Name="Density",
+    Qualifiers={"Definition": "", "Behavior": ""})
+matlProp2.SetVariableProperty(
+    VariableName="Density",
+    Property="Unit",
+    Value="lb in^-3")
+matlProp2.SetData(
+    Index=-1,
+    Variables=["Density"],
+    Values=[["0.056 [lb in^-3]"]])
+matlProp3 = matl1.CreateProperty(
+    Name="Ply Type",
+    Qualifiers={"Definition": "", "Behavior": ""})
+matlProp3.SetQualifier(
+    Qualifier="Type",
+    Value="Woven")
+matlProp4 = matl1.CreateProperty(
+    Name="Stress Limits",
+    Behavior="Orthotropic",
+    Qualifiers={"Definition": "", "Behavior": "Orthotropic"})
+matlProp4.SetVariableProperty(
+    VariableName="Tensile X direction",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetVariableProperty(
+    VariableName="Tensile Y direction",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetVariableProperty(
+    VariableName="Tensile Z direction",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetVariableProperty(
+    VariableName="Compressive X direction",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetVariableProperty(
+    VariableName="Compressive Y direction",
+    Property="Unit",
+    Value="MPa")
+matlProp4.SetVariableProperty(
+    VariableName="Compressive Y direction",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetVariableProperty(
+    VariableName="Compressive Z direction",
+    Property="Unit",
+    Value="MPa")
+matlProp4.SetVariableProperty(
+    VariableName="Compressive Z direction",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetVariableProperty(
+    VariableName="Shear XY",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetVariableProperty(
+    VariableName="Shear YZ",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetVariableProperty(
+    VariableName="Shear XZ",
+    Property="Unit",
+    Value="psi")
+matlProp4.SetData(
+    Index=-1,
+    Variables=["Tensile X direction"],
+    Values=[["102000 [psi]"]])
+matlProp4.SetData(
+    Variables=["Tensile Y direction"],
+    Values=[["102000 [psi]"]])
+matlProp4.SetData(
+    Variables=["Tensile Z direction"],
+    Values=[["50000 [psi]"]])
+matlProp4.SetData(
+    Variables=["Compressive X direction"],
+    Values=[["-900000 [psi]"]])
+matlProp4.SetData(
+    Variables=["Compressive Y direction"],
+    Values=[["-900000 [psi]"]])
+matlProp4.SetData(
+    Variables=["Compressive Z direction"],
+    Values=[["-450000 [psi]"]])
+matlProp4.SetData(
+    Variables=["Shear XY"],
+    Values=[["11327 [psi]"]])
+matlProp4.SetData(
+    Variables=["Shear YZ"],
+    Values=[["11327 [psi]"]])
+matlProp4.SetData(
+    Variables=["Shear XZ"],
+    Values=[["11327 [psi]"]])
+matlProp5 = matl1.CreateProperty(
+    Name="Tsai-Wu Constants",
+    Qualifiers={"Definition": "", "Behavior": ""})
+matl2 = matl1.Duplicate(TargetContainer=engineeringData1)
+matl2.DisplayName = "5250 Core"
+matlProp6 = matl2.GetProperty(Name="Density")
+matlProp6.SetData(
+    Variables=["Density"],
+    Values=[["0.0524 [lb in^-3]"]])
+matlProp7 = matl2.GetProperty(Name="Elasticity")
+matlProp7.SetData(
+    Variables=["Young's Modulus X direction"],
+    Values=[["15000000 [psi]"]])
+matlProp7.SetData(
+    Variables=["Young's Modulus Y direction"],
+    Values=[["1400000 [psi]"]])
+matlProp7.SetData(
+    Variables=["Young's Modulus Z direction"],
+    Values=[["1400000 [psi]"]])
+matlProp7.SetData(
+    Variables=["Poisson's Ratio XY"],
+    Values=[["0.3"]])
+matlProp7.SetData(
+    Variables=["Poisson's Ratio YZ"],
+    Values=[["0.3"]])
+matlProp7.SetData(
+    Variables=["Poisson's Ratio XZ"],
+    Values=[["0.3"]])
+matlProp7.SetData(
+    Variables=["Shear Modulus XY"],
+    Values=[["830000 [psi]"]])
+matlProp7.SetData(
+    Variables=["Shear Modulus YZ"],
+    Values=[["789000 [psi]"]])
+matlProp7.SetData(
+    Variables=["Shear Modulus XZ"],
+    Values=[["5600 [psi]"]])
+matlProp7.SetData(
+    Variables=["Shear Modulus XZ"],
+    Values=[["56000 [psi]"]])
+matlProp8 = matl2.GetProperty(Name="Stress Limits")
+matlProp8.SetData(
+    Variables=["Tensile X direction"],
+    Values=[["358200 [psi]"]])
+matlProp8.SetData(
+    Variables=["Tensile Y direction"],
+    Values=[["11000 [psi]"]])
+matlProp8.SetData(
+    Variables=["Tensile Z direction"],
+    Values=[["11000 [psi]"]])
+matlProp8.SetData(
+    Variables=["Compressive X direction"],
+    Values=[["-69500 [psi]"]])
+matlProp8.SetData(
+    Variables=["Compressive Y direction"],
+    Values=[["-39000 [psi]"]])
+matlProp8.SetData(
+    Variables=["Compressive Z direction"],
+    Values=[["-39000 [psi]"]])
+matlProp8.SetData(
+    Variables=["Shear XY"],
+    Values=[["18800 [psi]"]])
+matlProp8.SetData(
+    Variables=["Shear YZ"],
+    Values=[["18800 [psi]"]])
+matlProp8.SetData(
+    Variables=["Shear XZ"],
+    Values=[["18800 [psi]"]])
+matlProp9 = matl2.GetProperty(Name="Ply Type")
+matlProp9.SetQualifier(
+    Qualifier="Type",
+    Value="Regular")
+matl3 = engineeringData1.CreateMaterial(Name="Steel")
+matlProp10 = matl3.CreateProperty(
+    Name="Elasticity",
+    Behavior="Isotropic",
+    Qualifiers={"Definition": "", "Behavior": "Isotropic"})
+matlProp10.SetVariableProperty(
+    VariableName="Young's Modulus",
+    Property="Unit",
+    Value="psi")
+matlProp10.SetData(
+    Index=-1,
+    Variables=["Young's Modulus"],
+    Values=[["1000000000 [psi]"]])
+matlProp10.SetData(
+    Variables=["Poisson's Ratio"],
+    Values=[["0.01"]])
+Save(Overwrite=True)
+geometry1 = system1.GetContainer(ComponentName="Geometry")
+geometry1.SetFile(FilePath="D:/SPSProjects/ANSYS_projects/monocoque.IGS")
+geometry1.Edit()
+Save(Overwrite=True)
+Save(Overwrite=True)
+geometry1.Exit()
+modelComponent1 = system1.GetComponent(Name="Model")
+modelComponent1.Refresh()
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+model1.Exit()
+Save(Overwrite=True)
+setup1 = system1.GetContainer(ComponentName="Setup")
+setup1.Refresh(
+    KeepACPOpen=True,
+    BatchMode=False)
+Parameters.SetDesignPointsOutOfDate()
+Parameters.SetRetainedDesignPointDataInvalid(InvalidContainers=[engineeringData1, geometry1, model1, setup1])
+setupComponent1 = system1.GetComponent(Name="Setup")
+MarkComponentsOutOfDateForDps(Components=[setupComponent1])
+Parameters.SetPartiallyRetainedDataInvalid(Containers=[setup1])
+setup1.StartACP(ACPMode="pre")
+Save(Overwrite=True)
+Parameters.SetDesignPointsOutOfDate()
+Parameters.SetRetainedDesignPointDataInvalid(InvalidContainers=[engineeringData1, geometry1, model1, setup1])
+MarkComponentsOutOfDateForDps(Components=[setupComponent1])
+Parameters.SetPartiallyRetainedDataInvalid(Containers=[setup1])
+Save(Overwrite=True)
+setup1.ExitACP(Save=True)
+setupComponent1.Update(AllDependencies=True)
+Save(Overwrite=True)
+Save(Overwrite=True)
+template2 = GetTemplate(
+    TemplateName="Static Structural",
+    Solver="ANSYS")
+engineeringDataComponent1 = system1.GetComponent(Name="Engineering Data")
+geometryComponent1 = system1.GetComponent(Name="Geometry")
+system2 = template2.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1, modelComponent1],
+    Position="Right",
+    RelativeTo=system1)
+system2.Delete()
+Save(Overwrite=True)

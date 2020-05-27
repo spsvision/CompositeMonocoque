@@ -1,0 +1,43 @@
+# encoding: utf-8
+# 2019 R1
+SetScriptVersion(Version="19.3.111")
+template1 = GetTemplate(
+    TemplateName="Static Structural",
+    Solver="ANSYS")
+system1 = GetSystem(Name="ACP-Pre")
+system2 = template1.CreateSystem(
+    Position="Right",
+    RelativeTo=system1)
+template2 = GetTemplate(
+    TemplateName="ACP",
+    Solver="Post")
+system3 = template2.CreateSystem(
+    Position="Right",
+    RelativeTo=system2)
+setupComponent1 = system1.GetComponent(Name="Setup")
+modelComponent1 = system2.GetComponent(Name="Model")
+setupComponent1.TransferData(TargetComponent=modelComponent1)
+modelComponent1.Refresh()
+system2.Delete()
+system4 = template1.CreateSystem(
+    Position="Right",
+    RelativeTo=system3)
+system3.Delete()
+setup1 = system1.GetContainer(ComponentName="Setup")
+setup1.StartACP(ACPMode="pre")
+setup1.ExitACP(Save=True)
+system4.Delete()
+engineeringDataComponent1 = system1.GetComponent(Name="Engineering Data")
+geometryComponent1 = system1.GetComponent(Name="Geometry")
+modelComponent2 = system1.GetComponent(Name="Model")
+system5 = template1.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1, modelComponent2],
+    Position="Right",
+    RelativeTo=system1)
+modelComponent2.Refresh()
+setupComponent2 = system5.GetComponent(Name="Setup")
+setupComponent2.Refresh()
+setup2 = system5.GetContainer(ComponentName="Setup")
+setup2.Edit()
+setup1.StartACP(ACPMode="pre")
+Save(Overwrite=True)

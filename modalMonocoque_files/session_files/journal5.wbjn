@@ -1,0 +1,108 @@
+# encoding: utf-8
+# 2020 R1
+SetScriptVersion(Version="20.1.164")
+system1 = GetSystem(Name="SYS")
+results1 = system1.GetContainer(ComponentName="Results")
+results1.Edit()
+model1 = system1.GetContainer(ComponentName="Model")
+model1.Edit()
+template1 = GetTemplate(
+    TemplateName="Static Structural",
+    Solver="ANSYS")
+system2 = template1.CreateSystem(
+    Position="Left",
+    RelativeTo=system1)
+system3 = GetSystem(Name="ACP-Pre")
+setupComponent1 = system3.GetComponent(Name="Setup")
+modelComponent1 = system2.GetComponent(Name="Model")
+setupComponent1.TransferData(TargetComponent=modelComponent1)
+modelComponent1.Refresh()
+setup1 = system3.GetContainer(ComponentName="Setup")
+setup1.StartACP(ACPMode="pre")
+setup1.ExitACP(Save=True)
+model1.Edit()
+template2 = GetTemplate(TemplateName="Geometry")
+system4 = template2.CreateSystem(
+    Position="Below",
+    RelativeTo=system3)
+system2.Delete()
+geometry1 = system3.GetContainer(ComponentName="Geometry")
+geometry1.Edit()
+geometry1.Exit()
+model2 = system3.GetContainer(ComponentName="Model")
+model2.Edit()
+model2.Exit()
+setup1.StartACP(ACPMode="pre")
+Parameters.SetDesignPointsOutOfDate()
+engineeringData1 = system3.GetContainer(ComponentName="Engineering Data")
+setup2 = system1.GetContainer(ComponentName="Setup")
+solution1 = system1.GetContainer(ComponentName="Solution")
+Parameters.SetRetainedDesignPointDataInvalid(InvalidContainers=[engineeringData1, geometry1, model2, setup1, model1, setup2, solution1, results1])
+modelComponent2 = system1.GetComponent(Name="Model")
+setupComponent2 = system1.GetComponent(Name="Setup")
+solutionComponent1 = system1.GetComponent(Name="Solution")
+resultsComponent1 = system1.GetComponent(Name="Results")
+MarkComponentsOutOfDateForDps(Components=[setupComponent1, modelComponent2, setupComponent2, solutionComponent1, resultsComponent1])
+Parameters.SetPartiallyRetainedDataInvalid(Containers=[setup1, model1, setup2, solution1, results1])
+setup1.ExitACP(Save=True)
+setupComponent1.Update(AllDependencies=True)
+engineeringDataComponent1 = system3.GetComponent(Name="Engineering Data")
+geometryComponent1 = system3.GetComponent(Name="Geometry")
+modelComponent3 = system3.GetComponent(Name="Model")
+system5 = template1.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1, modelComponent3],
+    Position="Below",
+    RelativeTo=system1)
+system1.Delete()
+modelComponent3.Refresh()
+setupComponent3 = system5.GetComponent(Name="Setup")
+setupComponent3.Refresh()
+setup3 = system5.GetContainer(ComponentName="Setup")
+setup3.Edit()
+model2.Exit()
+template3 = GetTemplate(
+    TemplateName="ACP",
+    Solver="Post")
+system6 = template3.CreateSystem(
+    Position="Right",
+    RelativeTo=system5)
+system6.Delete()
+system4.Delete()
+engineeringDataComponent2 = system5.GetComponent(Name="Engineering Data")
+geometryComponent2 = system5.GetComponent(Name="Geometry")
+modelComponent4 = system5.GetComponent(Name="Model")
+system7 = template3.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent2, geometryComponent2, modelComponent4],
+    Position="Right",
+    RelativeTo=system5)
+setup3.Edit()
+model2.Exit()
+model2.Edit()
+model2.Exit()
+modelComponent3.Update(AllDependencies=True)
+results2 = system7.GetContainer(ComponentName="Results")
+results2.Refresh(
+    KeepACPOpen=True,
+    BatchMode=False)
+template4 = GetTemplate(TemplateName="Mechanical APDL")
+componentTemplate1 = GetComponentTemplate(Name="ANSYSSetupCellTemplate")
+system8 = template4.CreateSystem(
+    DataTransferFrom=[Set(FromComponent=setupComponent1, TransferName=None, ToComponentTemplate=componentTemplate1)],
+    RelativeTo=system3)
+setupComponent4 = system8.GetComponent(Name="Setup")
+setupComponent1.DeleteTransfer(TargetComponent=setupComponent4)
+system9 = template1.CreateSystem(
+    ComponentsToShare=[engineeringDataComponent1, geometryComponent1, modelComponent3],
+    Position="Below",
+    RelativeTo=system8)
+system9.Delete()
+system10 = template4.CreateSystem(
+    DataTransferFrom=[Set(FromComponent=setupComponent1, TransferName=None, ToComponentTemplate=componentTemplate1)],
+    RelativeTo=system3)
+system8.Delete()
+setupComponent5 = system10.GetComponent(Name="Setup")
+resultsComponent2 = system7.GetComponent(Name="Results")
+setupComponent5.TransferSpecificData(
+    TransferDataName="MAPDLSolution",
+    TargetComponent=resultsComponent2)
+Save(Overwrite=True)

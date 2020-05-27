@@ -1,0 +1,9 @@
+# encoding: utf-8
+# 2020 R1
+SetScriptVersion(Version="20.1.164")
+system1 = GetSystem(Name="ACP-Post")
+system1.Delete()
+system2 = GetSystem(Name="APDL 1")
+system2.Delete()
+Save(Overwrite=True)
+Save(Overwrite=True)
